@@ -1,8 +1,8 @@
 import tmi from 'tmi.js'
 require('dotenv').config()
 
-const client = new tmi.Client({
-	options: { debug: true },
+const options = {
+    options: { debug: true },
 	connection: {
 		secure: true,
 		reconnect: true
@@ -12,7 +12,9 @@ const client = new tmi.Client({
 		password: process.env.OAUTH_TOKEN
 	},
 	channels: [ process.env.CHANNEL_NAME ]
-});
+}
+
+const client = new tmi.Client(options);
 
 client.connect();
 
@@ -20,8 +22,10 @@ client.on('message', (channel, tags, message, self) => {
 	// Ignore echoed messages.
 	if(self) return;
 
-	if(message.toLowerCase() === '!hello') {
+	if(message.toLowerCase() === '!discord') {
 		// "@alca, heya!"
-		client.say(channel, `@${tags.username}, heya!`);
-	}
+	    client.say(channel, `https://discord.gg/ST2yAP`);
+	} else if (message.toLowerCase() === '!podcast') {
+        client.say(channel, `https://ngppodcast.com/`);
+    }
 });
